@@ -9,9 +9,14 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <ContextProvider>
-          <Route path="*" element={<App />} />
-        </ContextProvider>
+        <Route
+          path="*"
+          element={
+            <ContextProvider>
+              <App />
+            </ContextProvider>
+          }
+        />
       </Routes>
     </Router>
   </React.StrictMode>
