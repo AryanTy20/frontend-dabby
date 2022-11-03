@@ -3,17 +3,17 @@ import React from "react";
 type setItemProps = string;
 
 const useLocalStorage = () => {
-  const setUser = (value: setItemProps) => {
+  const setLocalUser = (value: setItemProps) => {
     localStorage.setItem("user", value);
   };
-  const getUser = () => {
+  const getLocalUser = () => {
     return localStorage.getItem("user");
   };
-  const deleteUser = () => {
+  const deleteLocalUser = () => {
     localStorage.removeItem("user");
   };
 
-  return [setUser, getUser, deleteUser];
+  return { setLocalUser, getLocalUser, deleteLocalUser };
 };
 
 export default useLocalStorage;
