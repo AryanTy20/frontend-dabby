@@ -8,6 +8,7 @@ import ErrorFallback from "./components/ErrorBoundary";
 const Register = React.lazy(() => import("./components/register"));
 const Login = React.lazy(() => import("./components/login"));
 const HomePage = React.lazy(() => import("./components/homepage"));
+const PageNotFound = React.lazy(() => import("./components/pagenotfound"));
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
                   <Route path="/" element={<HomePage />} />
                 </Route>
               </Route>
-              <Route path="*" element={<h1>Page Not Found</h1>} />
+              <Route path="*" element={<PageNotFound />} />
             </Route>
           </Routes>
         </Suspense>
