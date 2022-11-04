@@ -30,7 +30,7 @@ const Login = () => {
     const payload = Object.fromEntries(formData);
     try {
       const res = await customAxios.post("/auth/login", payload);
-      setUser(res.data.user);
+      setUser({ name: res.data.user });
       navigate("/", { replace: true });
     } catch (err) {
       if (axios.isAxiosError(err) && err.message) {

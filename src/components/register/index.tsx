@@ -8,14 +8,14 @@ import { useUserContext } from "../../hook/useUserContext";
 const Register = () => {
   const navigate = useNavigate();
   const { user, setUser } = useUserContext();
+
   const registerHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
     try {
       const response = await customAxios.post("/auth/register", data);
-      console.log(response.data.user);
-      setUser(response.data.user);
+      setUser({ name: response.data.user });
       navigate("/", { replace: true });
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {

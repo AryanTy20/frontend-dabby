@@ -12,7 +12,7 @@ const persistantRoute = () => {
     const getUser = async () => {
       try {
         const refreshedUser = await customAxios("/auth/refreshuser");
-        setUser(refreshedUser.data.user);
+        setUser({ name: refreshedUser.data.user });
       } catch (err) {
         if (axios.isAxiosError(err) && err.message) {
           console.log(err.message);
