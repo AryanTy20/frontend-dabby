@@ -11,11 +11,18 @@ type allImgType = {
   image: string;
 }[];
 
+type uploadData = {
+  name: string | "";
+  image: string | "";
+};
+
 const btns = ["Get all Img", "Upload Image", "Search Img by Name"];
 const HomePage = () => {
   const [allImages, setAllImages] = useState<allImgType>([]);
   const [copyImages, setcopyImages] = useState<allImgType>([]);
-  const [serverSearchedImg, setServerSearchedImg] = useState<allImgType>([]);
+  const [serverSearchedImg, setServerSearchedImg] = useState<allImgType | null>(
+    []
+  );
   const [activeTab, setActiveTab] = useState({
     allImg: true,
     uploadImg: false,
@@ -24,7 +31,7 @@ const HomePage = () => {
   const [searchKey, setSearchKey] = useState("");
   const [serverSearchKey, setServerSearchKey] = useState("");
   const [activeButton, setActiveButton] = useState(0);
-  const [image, setImage] = useState<string | undefined>("");
+  const [uploadData, setUploadData] = useState<uploadData>({} as uploadData);
   const [files, setFiles] = useState<fileType>(null);
   const { user, setUser } = useUserContext();
   const navigate = useNavigate();
@@ -54,24 +61,23 @@ const HomePage = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        setImage(reader.result?.toString());
+        const img = reader.result?.toString();
+        setUploadData({ name: "", image: img as string });
       };
     }
   }, [files]);
 
   const handleImgUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!image) return;
-    const regex = /('.jpg|.png|.jpeg')/i;
-    const fileName = files?.[0].name;
-    const data = {
-      name: fileName?.replace(regex, ""),
-      image,
-    };
+    if (!uploadData?.image) return;
+    // const regex = /('.jpg|.png|.jpeg')/i;
+    if (!uploadData.name) {
+      alert("file name is required");
+      return;
+    }
 
     try {
-      const res = await customAxios.post("/user/upload", data);
-      console.log(res);
+      await customAxios.post("/user/upload", uploadData);
       alert("image uplaoded");
     } catch (err) {
       if (axios.isAxiosError(err) && err.message) {
@@ -174,10 +180,10 @@ const HomePage = () => {
                 <h1>Upload Image</h1>
                 <div className="upload-section">
                   <div className="prev">
-                    <img src={image} alt="Img Preview" />
+                    <img src={uploadData?.image} alt="Img Preview" />
                   </div>
                   <form onSubmit={handleImgUpload} className="img-upload">
-                    {!image && (
+                    {!uploadData?.image && (
                       <input
                         type="file"
                         name="img"
@@ -188,6 +194,18 @@ const HomePage = () => {
                       />
                     )}
                     <input
+                      type="text"
+                      className="form-control p-2"
+                      placeholder="Image Name"
+                      value={uploadData.name}
+                      onChange={(e) =>
+                        setUploadData({
+                          name: e.target.value,
+                          image: uploadData?.image as string,
+                        })
+                      }
+                    />
+                    <input
                       type="submit"
                       value="Upload"
                       className="btn btn-secondary"
@@ -196,7 +214,7 @@ const HomePage = () => {
                       type="reset"
                       value="Cancel"
                       className="btn btn-secondary mx-2"
-                      onClick={() => setImage("")}
+                      onClick={() => setUploadData({ name: "", image: "" })}
                     />
                   </form>
                 </div>

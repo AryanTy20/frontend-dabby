@@ -74,16 +74,9 @@ main {
         form {
           margin: 2em 0;
           flex: 1;
-
-          // input[type="submit"],
-          // input[type="reset"] {
-          //   background-color: transparent;
-          //   padding: 0.5em 1em;
-
-          //   &:nth-child(2) {
-          //     margin-left: 1em;
-          //   }
-          // }
+          display: flex;
+          flex-direction: column;
+          gap: 1em;
         }
       }
     }
