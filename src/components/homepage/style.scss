@@ -24,10 +24,8 @@ nav {
 main {
   margin: 2em 0;
   max-width: min(90vw, 1000px);
-  border: solid red 1px;
   margin-inline: auto;
   border: solid;
-  height: 80vh;
 
   // .header {
   //   border: solid red 1px;
@@ -48,6 +46,7 @@ main {
   // }
 
   .container {
+    height: fit-content;
     .upload-img {
       height: 100vh;
 
@@ -87,8 +86,37 @@ main {
           // }
         }
       }
-      .allimg {
-        border: solid red 1px;
+    }
+    .allimg {
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1em;
+        margin: 2em 0;
+        input {
+          padding: 0.5em;
+        }
+      }
+      .img-container {
+        margin: 1em 0;
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+
+        .box {
+          height: 15em;
+          width: 15em;
+          border: solid green 2px;
+
+          img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            position: top;
+          }
+        }
       }
     }
   }

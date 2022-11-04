@@ -6,15 +6,21 @@ import { useUserContext } from "../../hook/useUserContext";
 import "./style.scss";
 
 type fileType = FileList | null;
+type allImgType = {
+  name: string;
+  image: string;
+}[];
 
 const btns = ["Get all Img", "Upload Image", "Search Img by Name"];
 const HomePage = () => {
-  const [allImages, setAllImages] = useState([]);
+  const [allImages, setAllImages] = useState<allImgType>([]);
+  const [copyImages, setcopyImages] = useState<allImgType>([]);
   const [activeTab, setActiveTab] = useState({
     allImg: true,
     uploadImg: false,
     searchImg: false,
   });
+  const [searchKey, setSearchKey] = useState("");
   const [activeButton, setActiveButton] = useState(0);
   const [image, setImage] = useState<string | undefined>("");
   const [files, setFiles] = useState<fileType>(null);
@@ -72,14 +78,21 @@ const HomePage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const res = await customAxios("/user/images");
-  //     // const hi = await customAxios("/user/search?name=mobile");
-  //     setAllImages(res.data);
-  //   };
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    const getData = async () => {
+      const res = await customAxios("/user/images", {
+        signal: controller.signal,
+      });
+      // const hi = await customAxios("/user/search?name=mobile");
+      setAllImages(res.data);
+    };
+    getData();
+
+    return () => {
+      controller.abort();
+    };
+  }, [activeTab.allImg]);
 
   useEffect(() => {
     switch (activeButton) {
@@ -107,6 +120,17 @@ const HomePage = () => {
     }
   }, [activeButton]);
 
+  const filterImg = () => {
+    setcopyImages(allImages);
+    setAllImages(allImages.filter((el) => el.name === searchKey));
+  };
+
+  useEffect(() => {
+    if (searchKey === "") {
+      setAllImages(copyImages);
+    }
+  }, [searchKey]);
+
   return (
     <>
       <nav>
@@ -118,8 +142,8 @@ const HomePage = () => {
       </nav>
       <main>
         <section>
-          <div className="header">
-            <ul className="my-2 nav nav-pills nav-justified">
+          <div className="header my-2 p-2 border">
+            <ul className=" nav nav-pills nav-justified">
               {btns?.map((btn, i) => (
                 <button
                   className={`nav-link  ${i == activeButton ? "active" : ""}`}
@@ -165,7 +189,34 @@ const HomePage = () => {
                 </div>
               </div>
             )}
-            {activeTab.allImg && <div className="allimg"></div>}
+            {activeTab.allImg && (
+              <div className="allimg">
+                <div className="header ">
+                  <h1 className="h5">All Images</h1>
+                  <div className="searchbox">
+                    <input
+                      type="search"
+                      value={searchKey}
+                      onChange={(e) => setSearchKey(e.target.value)}
+                      placeholder={"search by name"}
+                    />
+                    <button
+                      className="btn btn-info text-white mx-1"
+                      onClick={filterImg}
+                    >
+                      search
+                    </button>
+                  </div>
+                </div>
+                <div className="img-container">
+                  {allImages?.map((item, i) => (
+                    <div className="box" key={i}>
+                      <img src={item?.image} alt={item.name} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             {activeTab.searchImg && <div className="allimg">allimg</div>}
           </div>
         </section>
