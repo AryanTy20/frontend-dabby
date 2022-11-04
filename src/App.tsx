@@ -1,7 +1,8 @@
 import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import Layout from "./layout";
 import { ErrorBoundary } from "react-error-boundary";
+import Loader from "./components/loader";
+import Layout from "./layout";
 import ProtectedRoute from "./layout/protectedRoute";
 import PersistantRoute from "./layout/persistantRoute";
 import ErrorFallback from "./components/ErrorBoundary";
@@ -17,7 +18,7 @@ function App() {
         FallbackComponent={ErrorFallback}
         onReset={() => location.reload()}
       >
-        <Suspense fallback={<h1>Loading</h1>}>
+        <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/register" element={<Register />} />
