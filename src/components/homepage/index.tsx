@@ -1,13 +1,26 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { customAxios } from "../../axios";
 import { useUserContext } from "../../hook/useUserContext";
 import "./style.scss";
 
+type fileType = FileList | null;
+
+const btns = ["Get all Img", "Upload Image", "Search Img by Name"];
 const HomePage = () => {
+  const [allImages, setAllImages] = useState([]);
+  const [activeTab, setActiveTab] = useState({
+    allImg: true,
+    uploadImg: false,
+    searchImg: false,
+  });
+  const [activeButton, setActiveButton] = useState(0);
+  const [image, setImage] = useState<string | undefined>("");
+  const [files, setFiles] = useState<fileType>(null);
   const { user, setUser } = useUserContext();
   const navigate = useNavigate();
+
   const logout = async () => {
     try {
       const res = await customAxios("/auth/logout");
@@ -20,14 +33,151 @@ const HomePage = () => {
     }
   };
 
+  useEffect(() => {
+    if (!files) return;
+    const maxSize = 5000000;
+    const file = files?.[0];
+    if (file.size > maxSize) {
+      alert("Image is too big");
+      setFiles(null);
+      return;
+    }
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImage(reader.result?.toString());
+      };
+    }
+  }, [files]);
+
+  const handleImgUpload = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!image) return;
+    const regex = /('.jpg|.png|.jpeg')/i;
+    const fileName = files?.[0].name;
+    const data = {
+      name: fileName?.replace(regex, ""),
+      image,
+    };
+
+    try {
+      const res = await customAxios.post("/user/upload", data);
+      console.log(res);
+      alert("image uplaoded");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.message) {
+        console.log(err.message);
+      }
+    }
+  };
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const res = await customAxios("/user/images");
+  //     // const hi = await customAxios("/user/search?name=mobile");
+  //     setAllImages(res.data);
+  //   };
+  //   getData();
+  // }, []);
+
+  useEffect(() => {
+    switch (activeButton) {
+      case 0:
+        setActiveTab({
+          allImg: true,
+          uploadImg: false,
+          searchImg: false,
+        });
+        break;
+      case 1:
+        setActiveTab({
+          allImg: false,
+          uploadImg: true,
+          searchImg: false,
+        });
+        break;
+      case 2:
+        setActiveTab({
+          allImg: false,
+          uploadImg: false,
+          searchImg: true,
+        });
+        break;
+    }
+  }, [activeButton]);
+
   return (
     <>
       <nav>
         <h1>Welcome {user?.name}</h1>
-        <button onClick={logout}>logout</button>
+
+        <button className="btn btn-primary" onClick={logout}>
+          logout
+        </button>
       </nav>
-      <main></main>
-      <footer></footer>
+      <main>
+        <section>
+          <div className="header">
+            <ul className="my-2 nav nav-pills nav-justified">
+              {btns?.map((btn, i) => (
+                <button
+                  className={`nav-link  ${i == activeButton ? "active" : ""}`}
+                  onClick={() => setActiveButton(i)}
+                  key={i}
+                >
+                  {btn}
+                </button>
+              ))}
+            </ul>
+          </div>
+          <div className="container">
+            {activeTab.uploadImg && (
+              <div className="upload-img">
+                <h1>Upload Image</h1>
+                <div className="upload-section">
+                  <div className="prev">
+                    <img src={image} alt="Img Preview" />
+                  </div>
+                  <form onSubmit={handleImgUpload} className="img-upload">
+                    {!image && (
+                      <input
+                        type="file"
+                        name="img"
+                        accept=".png,.jpg,.jpeg"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setFiles(e.target.files)
+                        }
+                      />
+                    )}
+                    <input
+                      type="submit"
+                      value="Upload"
+                      className="btn btn-secondary"
+                    />
+                    <input
+                      type="reset"
+                      value="Cancel"
+                      className="btn btn-secondary mx-2"
+                      onClick={() => setImage("")}
+                    />
+                  </form>
+                </div>
+              </div>
+            )}
+            {activeTab.allImg && <div className="allimg"></div>}
+            {activeTab.searchImg && <div className="allimg">allimg</div>}
+          </div>
+        </section>
+      </main>
+      <footer>
+        <h1>
+          Created By{" "}
+          <a href="https://aryanty.vercel.app" target={"_blank"}>
+            Aryan Tirkey
+          </a>
+        </h1>
+      </footer>
     </>
   );
 };

@@ -1,0 +1,108 @@
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em 2em;
+  max-width: min(90vw, 1000px);
+  margin-top: 0.5em;
+  margin-inline: auto;
+  border: solid;
+
+  // button {
+  //   background-color: transparent;
+  //   border: solid black 1px;
+  //   padding: 0.2em 0.3em;
+  //   cursor: pointer;
+  //   transition: box-shadow 0.3s;
+
+  //   &:hover {
+  //     box-shadow: inset -2px -2px red;
+  //   }
+  // }
+}
+
+main {
+  margin: 2em 0;
+  max-width: min(90vw, 1000px);
+  border: solid red 1px;
+  margin-inline: auto;
+  border: solid;
+  height: 80vh;
+
+  // .header {
+  //   border: solid red 1px;
+  //   padding: 0.5em;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: space-between;
+  //   button {
+  //     background-color: transparent;
+  //     border: solid black 1px;
+  //     cursor: pointer;
+  //     padding: 0.5em;
+  //   }
+
+  //   .active {
+  //     box-shadow: inset -2px -2px red;
+  //   }
+  // }
+
+  .container {
+    .upload-img {
+      height: 100vh;
+
+      h1 {
+        text-align: center;
+      }
+
+      .upload-section {
+        margin: 2em 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .prev {
+          height: 20em;
+          width: 20em;
+          overflow: hidden;
+
+          img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+          }
+        }
+        form {
+          margin: 2em 0;
+          flex: 1;
+
+          // input[type="submit"],
+          // input[type="reset"] {
+          //   background-color: transparent;
+          //   padding: 0.5em 1em;
+
+          //   &:nth-child(2) {
+          //     margin-left: 1em;
+          //   }
+          // }
+        }
+      }
+      .allimg {
+        border: solid red 1px;
+      }
+    }
+  }
+}
+
+footer {
+  padding: 1em 2em;
+  max-width: min(90vw, 1000px);
+  margin-top: 0.5em;
+  margin-inline: auto;
+  border: solid black 1px;
+  text-align: center;
+
+  a {
+    text-decoration: none;
+  }
+}
