@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./layout";
 import { ErrorBoundary } from "react-error-boundary";
 import ProtectedRoute from "./layout/protectedRoute";
+import PersistantRoute from "./layout/persistantRoute";
 import ErrorFallback from "./components/ErrorBoundary";
 const Register = React.lazy(() => import("./components/register"));
 const Login = React.lazy(() => import("./components/login"));
@@ -20,8 +21,10 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<HomePage />} />
+              <Route element={<PersistantRoute />}>
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/" element={<HomePage />} />
+                </Route>
               </Route>
               <Route path="*" element={<h1>Page Not Found</h1>} />
             </Route>
