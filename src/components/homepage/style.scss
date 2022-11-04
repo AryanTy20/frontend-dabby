@@ -46,7 +46,7 @@ main {
   // }
 
   .container {
-    height: fit-content;
+    min-height: minmax(100vh, fit-content);
     .upload-img {
       height: 100vh;
 
@@ -99,23 +99,35 @@ main {
           padding: 0.5em;
         }
       }
-      .img-container {
-        margin: 1em 0;
+    }
+
+    .searchImg {
+      .input-box {
         display: flex;
+        align-items: center;
         gap: 1em;
-        flex-wrap: wrap;
+      }
+      .output-box {
+        border: solid green 1px;
+      }
+    }
 
-        .box {
-          height: 15em;
-          width: 15em;
-          border: solid green 2px;
+    .img-container {
+      margin: 1em 0;
+      display: flex;
+      gap: 1em;
+      flex-wrap: wrap;
 
-          img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            position: top;
-          }
+      .box {
+        height: 15em;
+        width: 15em;
+        border: solid green 2px;
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+          position: top;
         }
       }
     }
