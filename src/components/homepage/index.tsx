@@ -87,6 +87,7 @@ const HomePage = () => {
       setUploadData({ image: "", name: "" });
     } catch (err) {
       if (axios.isAxiosError(err) && err.message) {
+        setIsLoading(false);
         const { message, status } = err.response?.data as errorType;
         status === 403 ? setError(message) : setError("Something went wrong!");
       }
@@ -103,6 +104,7 @@ const HomePage = () => {
         setIsLoading(false);
       } catch (err) {
         if (axios.isAxiosError(err) && err.message) {
+          setIsLoading(false);
           const { message } = err.response?.data as errorType;
           setError(message);
         }
@@ -166,6 +168,7 @@ const HomePage = () => {
         setIsLoading(false);
       } catch (err) {
         if (axios.isAxiosError(err) && err.message) {
+          setIsLoading(false);
           const { message } = err.response?.data as errorType;
           setError(message);
         }
