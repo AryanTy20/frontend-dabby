@@ -6,19 +6,6 @@ nav {
   max-width: min(90vw, 1000px);
   margin-top: 0.5em;
   margin-inline: auto;
-  border: solid;
-
-  // button {
-  //   background-color: transparent;
-  //   border: solid black 1px;
-  //   padding: 0.2em 0.3em;
-  //   cursor: pointer;
-  //   transition: box-shadow 0.3s;
-
-  //   &:hover {
-  //     box-shadow: inset -2px -2px red;
-  //   }
-  // }
 }
 
 main {
@@ -26,24 +13,6 @@ main {
   max-width: min(90vw, 1000px);
   margin-inline: auto;
   border: solid;
-
-  // .header {
-  //   border: solid red 1px;
-  //   padding: 0.5em;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: space-between;
-  //   button {
-  //     background-color: transparent;
-  //     border: solid black 1px;
-  //     cursor: pointer;
-  //     padding: 0.5em;
-  //   }
-
-  //   .active {
-  //     box-shadow: inset -2px -2px red;
-  //   }
-  // }
 
   .container {
     min-height: minmax(100vh, fit-content);
@@ -118,13 +87,13 @@ main {
       .box {
         height: 15em;
         width: 15em;
-        border: solid green 2px;
+        border-radius: 0.25em;
+        overflow: hidden;
 
         img {
           height: 100%;
           width: 100%;
           object-fit: contain;
-          position: top;
         }
       }
     }

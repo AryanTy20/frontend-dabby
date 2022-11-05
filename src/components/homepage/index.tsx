@@ -17,7 +17,7 @@ type uploadData = {
   image: string | "";
 };
 
-const btns = ["Get all Img", "Upload Image", "Search Img by Name"];
+const btns = ["Get all Img", "Upload Image", "Search in server"];
 const HomePage = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -185,13 +185,13 @@ const HomePage = () => {
 
   return (
     <>
-      <nav>
+      <nav className="border">
         <h1>Welcome {user?.name}</h1>
         <button className="btn btn-primary" onClick={logout}>
           logout
         </button>
       </nav>
-      <main>
+      <main className="border px-2">
         <section>
           <div className="header my-2 p-2 border">
             <ul className=" nav nav-pills nav-justified">
@@ -317,7 +317,7 @@ const HomePage = () => {
           </div>
         </section>
       </main>
-      <footer>
+      <footer className="border">
         <h1 className="h4">
           Created By{" "}
           <a href="https://aryanty.vercel.app" target={"_blank"}>
