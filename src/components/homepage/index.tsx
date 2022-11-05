@@ -319,7 +319,9 @@ const HomePage = () => {
                       <img src={item?.image} alt={item.name} />
                     </div>
                   ))}
-                  {!serverSearchedImg && !isLoading && <h5>No image found</h5>}
+                  {serverSearchedImg?.length == 0 && !isLoading && (
+                    <h5>No image found</h5>
+                  )}
                 </div>
               </div>
             )}
