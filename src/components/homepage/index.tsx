@@ -84,6 +84,7 @@ const HomePage = () => {
     try {
       await customAxios.post("/user/upload", uploadData);
       setIsLoading(false);
+      setUploadData({ image: "", name: "" });
     } catch (err) {
       if (axios.isAxiosError(err) && err.message) {
         const { message, status } = err.response?.data as errorType;
@@ -186,7 +187,10 @@ const HomePage = () => {
   return (
     <>
       <nav className="border">
-        <h1>Welcome {user?.name}</h1>
+        <h1>
+          Welcome{" "}
+          <span style={{ textTransform: "capitalize" }}>{user?.name}</span>
+        </h1>
         <button className="btn btn-primary" onClick={logout}>
           logout
         </button>
@@ -211,7 +215,7 @@ const HomePage = () => {
               <div className="upload-img">
                 <h1>Upload Image</h1>
                 {error && <p className="error">{error}</p>}
-                {isLoading && <p>Uploading...</p>}
+                {isLoading && <p className="loading">Uploading...</p>}
                 <div className="upload-section">
                   <div className="prev">
                     <img src={uploadData?.image} alt="" />
@@ -274,13 +278,17 @@ const HomePage = () => {
                     </button>
                   </div>
                 </div>
-                {isLoading && <p>Loading...</p>}
+                {isLoading && <p className="loading">Loading...</p>}
                 <div className="img-container">
                   {allImages?.map((item, i) => (
                     <div className="box" key={i}>
                       <img src={item?.image} alt={item.name} />
                     </div>
                   ))}
+
+                  {!allImages && !isLoading && (
+                    <h4 className="text-center">No images uploaded</h4>
+                  )}
                 </div>
               </div>
             )}
@@ -304,13 +312,14 @@ const HomePage = () => {
                     search
                   </button>
                 </div>
-                {isLoading && <p>Loading...</p>}
+                {isLoading && <p className="loading">Loading...</p>}
                 <div className="img-container">
                   {serverSearchedImg?.map((item, i) => (
                     <div className="box" key={i}>
                       <img src={item?.image} alt={item.name} />
                     </div>
                   ))}
+                  {!serverSearchedImg && !isLoading && <h5>No image found</h5>}
                 </div>
               </div>
             )}
