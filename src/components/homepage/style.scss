@@ -47,6 +47,10 @@ main {
 
   .container {
     min-height: minmax(100vh, fit-content);
+    .error {
+      text-align: center;
+      color: red;
+    }
     .upload-img {
       height: 100vh;
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { customAxios } from "../../axios";
 import { useUserContext } from "../../hook/useUserContext";
+import { errorType } from "../login";
 import "./style.scss";
 
 type fileType = FileList | null;
@@ -72,19 +73,18 @@ const HomePage = () => {
   //uploading data to server
   const handleImgUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!uploadData?.image) return;
-    // const regex = /('.jpg|.png|.jpeg')/i;
-    if (!uploadData.name) {
-      alert("file name is required");
+    if (!uploadData.image || !uploadData.name) {
+      setError("Image and name are required");
       return;
+    } else {
+      setError("");
     }
-
     try {
       await customAxios.post("/user/upload", uploadData);
-      alert("image uplaoded");
     } catch (err) {
       if (axios.isAxiosError(err) && err.message) {
-        console.log(err.message);
+        const { message, status } = err.response?.data as errorType;
+        status === 403 ? setError(message) : setError("Something went wrong!");
       }
     }
   };
@@ -92,13 +92,20 @@ const HomePage = () => {
   //getting  all images
   useEffect(() => {
     const getData = async () => {
-      const res = await customAxios("/user/images");
-      setAllImages(res.data);
+      try {
+        const res = await customAxios("/user/images");
+        setAllImages(res.data);
+      } catch (err) {
+        if (axios.isAxiosError(err) && err.message) {
+          const { message } = err.response?.data as errorType;
+          setError(message);
+        }
+      }
     };
     getData();
   }, [activeTab.allImg]);
 
-  //setting active tab for diffrent section
+  //setting active tab for diffrent section , reseting searchkey and  reseting error
   useEffect(() => {
     switch (activeButton) {
       case 0:
@@ -123,10 +130,17 @@ const HomePage = () => {
         });
         break;
     }
+    setError("");
+    setSearchKey("");
+    setServerSearchKey("");
   }, [activeButton]);
 
   //local image search
   const filterImg = () => {
+    if (!searchKey) {
+      setError("searchkey is required");
+      return;
+    }
     setcopyImages(allImages);
     setAllImages(allImages.filter((el) => el.name === searchKey));
   };
@@ -134,8 +148,19 @@ const HomePage = () => {
   //search in server request
   const searchInServer = () => {
     const getData = async () => {
-      const res = await customAxios(`/user/search?name=${serverSearchKey}`);
-      setServerSearchedImg(res.data);
+      if (!serverSearchKey) {
+        setError("searchkey is required");
+        return;
+      }
+      try {
+        const res = await customAxios(`/user/search?name=${serverSearchKey}`);
+        setServerSearchedImg(res.data);
+      } catch (err) {
+        if (axios.isAxiosError(err) && err.message) {
+          const { message } = err.response?.data as errorType;
+          setError(message);
+        }
+      }
     };
     getData();
   };
@@ -177,11 +202,11 @@ const HomePage = () => {
           <div className="container">
             {activeTab.uploadImg && (
               <div className="upload-img">
-                {error && <p className="error">{error}</p>}
                 <h1>Upload Image</h1>
+                {error && <p className="error">{error}</p>}
                 <div className="upload-section">
                   <div className="prev">
-                    <img src={uploadData?.image} alt="Img Preview" />
+                    <img src={uploadData?.image} alt="" />
                   </div>
                   <form onSubmit={handleImgUpload} className="img-upload">
                     {!uploadData?.image && (
@@ -225,6 +250,7 @@ const HomePage = () => {
               <div className="allimg">
                 <div className="header ">
                   <h1 className="h5">All Images</h1>
+                  {error && <p className="error">{error}</p>}
                   <div className="searchbox">
                     <input
                       type="search"
@@ -251,7 +277,9 @@ const HomePage = () => {
             )}
             {activeTab.searchImg && (
               <div className="searchImg">
+                {error && <p className="error">{error}</p>}
                 <h1 className="text-center h4">Search img in server</h1>
+
                 <div className="input-box ">
                   <input
                     type="search"
