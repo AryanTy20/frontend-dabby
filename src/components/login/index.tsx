@@ -1,12 +1,24 @@
-import axios from "axios";
-import React, { useEffect } from "react";
+import axios, { AxiosError } from "axios";
+import React, { useEffect, useState } from "react";
 import { customAxios } from "../../axios";
 import { useUserContext } from "../../hook/useUserContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  BsFillEyeFill as ShowIcon,
+  BsFillEyeSlashFill as HideIcon,
+} from "react-icons/bs";
 import "./style.scss";
+
+type errorType = {
+  message: string;
+  status: number;
+  success: boolean;
+};
 
 const Login = () => {
   const { user, setUser } = useUserContext();
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +46,8 @@ const Login = () => {
       navigate("/", { replace: true });
     } catch (err) {
       if (axios.isAxiosError(err) && err.message) {
-        console.log(err.message);
+        const { message, status } = err.response?.data as errorType;
+        status === 400 ? setError(message) : setError("Something went wrong!");
       }
     }
   };
@@ -42,13 +55,39 @@ const Login = () => {
   return (
     <section className="login">
       <div className="login-box">
-        <h1>Welcome Back !</h1>
-        <h2>Login</h2>
+        {error && <p className="error text-center">{error}</p>}
+        <h1 className="h2 text-center">Welcome Back !</h1>
+        <h2 className="text-center my-2 h3">Login</h2>
         <form onSubmit={loginHandler}>
-          <input type="text" name="username" placeholder="Username" />
-          <input type="password" name="password" placeholder="Password" />
-          <input type="submit" value="Login" />
+          <input
+            className="form-control"
+            type="text"
+            name="username"
+            placeholder="Username"
+          />
+          <div className="password">
+            <input
+              className="form-control"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+            />
+            <div
+              className="controls"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <HideIcon /> : <ShowIcon />}
+            </div>
+          </div>
+          <input
+            className="form-control btn btn-primary"
+            type="submit"
+            value="Login"
+          />
         </form>
+        <small>
+          Not a user <Link to="/register">signup</Link>
+        </small>
       </div>
     </section>
   );

@@ -135,7 +135,7 @@ const HomePage = () => {
 
   const searchInServer = () => {
     const getData = async () => {
-      const res = await customAxios("/user/search?name=mobile");
+      const res = await customAxios(`/user/search?name=${serverSearchKey}`);
       setServerSearchedImg(res.data);
     };
     getData();
