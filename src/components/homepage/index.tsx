@@ -20,6 +20,7 @@ type uploadData = {
 const btns = ["Get all Img", "Upload Image", "Search Img by Name"];
 const HomePage = () => {
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [allImages, setAllImages] = useState<allImgType>([]);
   const [copyImages, setcopyImages] = useState<allImgType>([]);
   const [serverSearchedImg, setServerSearchedImg] = useState<allImgType | null>(
@@ -79,8 +80,10 @@ const HomePage = () => {
     } else {
       setError("");
     }
+    setIsLoading(true);
     try {
       await customAxios.post("/user/upload", uploadData);
+      setIsLoading(false);
     } catch (err) {
       if (axios.isAxiosError(err) && err.message) {
         const { message, status } = err.response?.data as errorType;
@@ -92,9 +95,11 @@ const HomePage = () => {
   //getting  all images
   useEffect(() => {
     const getData = async () => {
+      activeTab.allImg && setIsLoading(true);
       try {
         const res = await customAxios("/user/images");
         setAllImages(res.data);
+        setIsLoading(false);
       } catch (err) {
         if (axios.isAxiosError(err) && err.message) {
           const { message } = err.response?.data as errorType;
@@ -105,7 +110,7 @@ const HomePage = () => {
     getData();
   }, [activeTab.allImg]);
 
-  //setting active tab for diffrent section , reseting searchkey and  reseting error
+  //setting active tab for diffrent section , reseting searchkey, error,loading
   useEffect(() => {
     switch (activeButton) {
       case 0:
@@ -133,6 +138,7 @@ const HomePage = () => {
     setError("");
     setSearchKey("");
     setServerSearchKey("");
+    setIsLoading(false);
   }, [activeButton]);
 
   //local image search
@@ -152,9 +158,11 @@ const HomePage = () => {
         setError("searchkey is required");
         return;
       }
+      setIsLoading(true);
       try {
         const res = await customAxios(`/user/search?name=${serverSearchKey}`);
         setServerSearchedImg(res.data);
+        setIsLoading(false);
       } catch (err) {
         if (axios.isAxiosError(err) && err.message) {
           const { message } = err.response?.data as errorType;
@@ -167,7 +175,7 @@ const HomePage = () => {
 
   //default state of images
   useEffect(() => {
-    if (searchKey === "" && !searchInServer) {
+    if (searchKey === "") {
       setAllImages(copyImages);
     }
     if (serverSearchKey === "" && !searchKey) {
@@ -179,7 +187,6 @@ const HomePage = () => {
     <>
       <nav>
         <h1>Welcome {user?.name}</h1>
-
         <button className="btn btn-primary" onClick={logout}>
           logout
         </button>
@@ -204,6 +211,7 @@ const HomePage = () => {
               <div className="upload-img">
                 <h1>Upload Image</h1>
                 {error && <p className="error">{error}</p>}
+                {isLoading && <p>Uploading...</p>}
                 <div className="upload-section">
                   <div className="prev">
                     <img src={uploadData?.image} alt="" />
@@ -266,6 +274,7 @@ const HomePage = () => {
                     </button>
                   </div>
                 </div>
+                {isLoading && <p>Loading...</p>}
                 <div className="img-container">
                   {allImages?.map((item, i) => (
                     <div className="box" key={i}>
@@ -295,6 +304,7 @@ const HomePage = () => {
                     search
                   </button>
                 </div>
+                {isLoading && <p>Loading...</p>}
                 <div className="img-container">
                   {serverSearchedImg?.map((item, i) => (
                     <div className="box" key={i}>
@@ -308,7 +318,7 @@ const HomePage = () => {
         </section>
       </main>
       <footer>
-        <h1>
+        <h1 className="h4">
           Created By{" "}
           <a href="https://aryanty.vercel.app" target={"_blank"}>
             Aryan Tirkey
