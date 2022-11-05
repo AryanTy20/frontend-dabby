@@ -18,6 +18,7 @@ type uploadData = {
 
 const btns = ["Get all Img", "Upload Image", "Search Img by Name"];
 const HomePage = () => {
+  const [error, setError] = useState("");
   const [allImages, setAllImages] = useState<allImgType>([]);
   const [copyImages, setcopyImages] = useState<allImgType>([]);
   const [serverSearchedImg, setServerSearchedImg] = useState<allImgType | null>(
@@ -48,6 +49,7 @@ const HomePage = () => {
     }
   };
 
+  //for img preview and convert to data url
   useEffect(() => {
     if (!files) return;
     const maxSize = 5000000;
@@ -67,6 +69,7 @@ const HomePage = () => {
     }
   }, [files]);
 
+  //uploading data to server
   const handleImgUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!uploadData?.image) return;
@@ -86,22 +89,16 @@ const HomePage = () => {
     }
   };
 
+  //getting  all images
   useEffect(() => {
-    const controller = new AbortController();
     const getData = async () => {
-      const res = await customAxios("/user/images", {
-        signal: controller.signal,
-      });
-      // const hi = await customAxios("/user/search?name=mobile");
+      const res = await customAxios("/user/images");
       setAllImages(res.data);
     };
     getData();
-
-    return () => {
-      controller.abort();
-    };
   }, [activeTab.allImg]);
 
+  //setting active tab for diffrent section
   useEffect(() => {
     switch (activeButton) {
       case 0:
@@ -128,11 +125,13 @@ const HomePage = () => {
     }
   }, [activeButton]);
 
+  //local image search
   const filterImg = () => {
     setcopyImages(allImages);
     setAllImages(allImages.filter((el) => el.name === searchKey));
   };
 
+  //search in server request
   const searchInServer = () => {
     const getData = async () => {
       const res = await customAxios(`/user/search?name=${serverSearchKey}`);
@@ -141,6 +140,7 @@ const HomePage = () => {
     getData();
   };
 
+  //default state of images
   useEffect(() => {
     if (searchKey === "" && !searchInServer) {
       setAllImages(copyImages);
@@ -177,6 +177,7 @@ const HomePage = () => {
           <div className="container">
             {activeTab.uploadImg && (
               <div className="upload-img">
+                {error && <p className="error">{error}</p>}
                 <h1>Upload Image</h1>
                 <div className="upload-section">
                   <div className="prev">
@@ -213,7 +214,7 @@ const HomePage = () => {
                     <input
                       type="reset"
                       value="Cancel"
-                      className="btn btn-secondary mx-2"
+                      className="btn btn-danger"
                       onClick={() => setUploadData({ name: "", image: "" })}
                     />
                   </form>
