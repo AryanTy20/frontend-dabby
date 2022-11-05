@@ -9,7 +9,7 @@ import {
 } from "react-icons/bs";
 import "./style.scss";
 
-type errorType = {
+export type errorType = {
   message: string;
   status: number;
   success: boolean;
@@ -86,7 +86,7 @@ const Login = () => {
           />
         </form>
         <small>
-          Not a user <Link to="/register">signup</Link>
+          Not an user <Link to="/register">Sign up</Link>
         </small>
       </div>
     </section>

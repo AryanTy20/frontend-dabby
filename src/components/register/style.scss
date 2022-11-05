@@ -1,0 +1,44 @@
+.register {
+  background-image: linear-gradient(
+    to left top,
+    #051937,
+    #003657,
+    #005570,
+    #007581,
+    #0f9588
+  );
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+
+  .register-box {
+    max-width: min(90vw, 25em);
+    box-shadow: 0 0 10px 5px rgba(#00687a, 0.5);
+    padding: 2em 1em;
+    border-radius: 0.5em;
+    background-color: white;
+
+    .error {
+      text-align: center;
+      color: red;
+    }
+
+    form {
+      margin-top: 2em;
+      display: flex;
+      flex-direction: column;
+      gap: 1em 0;
+
+      input {
+        padding: 0.5em;
+      }
+    }
+
+    small {
+      margin: 1em 0;
+      display: block;
+      text-align: center;
+    }
+  }
+}

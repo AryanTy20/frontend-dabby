@@ -1,12 +1,14 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { customAxios } from "../../axios";
-import { useNavigate } from "react-router-dom";
-import "./style.scss";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../hook/useUserContext";
+import { errorType } from "../login";
+import "./style.scss";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const { user, setUser } = useUserContext();
 
   const registerHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,9 +21,12 @@ const Register = () => {
       navigate("/", { replace: true });
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        console.log(err.response.data);
-      } else {
-        console.log(err);
+        const { message, status } = err.response?.data as errorType;
+        if (status === 403) {
+          setError(message);
+        } else {
+          setError("Something went wrong!");
+        }
       }
     }
   };
@@ -29,17 +34,34 @@ const Register = () => {
   return (
     <section className="register">
       <div className="register-box">
-        <h1>Register</h1>
+        {error && <p className="error">{error}</p>}
+        <h1 className="h2 text-center">Register</h1>
         <form onSubmit={registerHandler}>
-          <input type="text" name="username" placeholder="Username" />
-          <input type="text" name="password" placeholder="Password" />
           <input
+            className="form-control"
+            type="text"
+            name="username"
+            placeholder="Username"
+          />
+          <input
+            className="form-control"
+            type="text"
+            name="password"
+            placeholder="Password"
+          />
+          <input
+            className="form-control"
             type="text"
             name="repeatPassword"
             placeholder="Repeat Password"
           />
-          <button type="submit">Register</button>
+          <button className="form-control btn btn-primary" type="submit">
+            Register
+          </button>
         </form>
+        <small>
+          Already an user <Link to="/login">Sign in</Link>
+        </small>
       </div>
     </section>
   );
