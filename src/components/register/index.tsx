@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { customAxios } from "../../axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../hook/useUserContext";
 import { errorType } from "../login";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Register = () => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
+    setError("");
     try {
       const response = await customAxios.post("/auth/register", data);
       setUser({ name: response.data.user });
@@ -30,14 +32,22 @@ const Register = () => {
     }
   };
 
+  useEffect(() => {
+    if (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
+  }, [error]);
+
   return (
     <div className="register_box">
       <h1>Dobby Ads</h1>
       <h2>Sign In to your Account</h2>
-      <form>
-        <input type="text" placeholder="username" />
-        <input type="text" placeholder="password" />
-        <input type="text" placeholder="repeat password" />
+      <form onSubmit={registerHandler}>
+        <input type="text" placeholder="username" required />
+        <input type="text" placeholder="password" required />
+        <input type="text" placeholder="repeat password" required />
         <input type="submit" value="Create Account" />
       </form>
       <small>

@@ -66,12 +66,13 @@ const Login = () => {
       <h1>Dobby Ads</h1>
       <h2>Sign In to your Account</h2>
       <form onSubmit={loginHandler}>
-        <input type="text" placeholder="username" name="username" />
+        <input type="text" placeholder="username" name="username" required />
         <div className="password">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
+            required
           />
           <div
             className="controls"

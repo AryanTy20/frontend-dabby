@@ -40,10 +40,14 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
+    let id: number;
     if (online) {
       toast.dismiss(closeRef.current);
-      // toast.clearWaitingQueue();
+      id = setTimeout(() => toast.clearWaitingQueue(), 1000);
     }
+    return () => {
+      clearTimeout(id);
+    };
   }, [online]);
 
   return <Outlet />;
