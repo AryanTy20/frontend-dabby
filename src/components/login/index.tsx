@@ -38,6 +38,7 @@ const Login = () => {
 
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
     const formData = new FormData(e.target as HTMLFormElement);
     const payload = Object.fromEntries(formData);
     try {
