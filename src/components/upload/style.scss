@@ -1,0 +1,114 @@
+.upload {
+  margin: 2em 0;
+  padding: 0 10em;
+
+  h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .form-upload {
+    margin-inline: auto;
+    width: 25em;
+    padding: 2em;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    box-shadow: 0 0 20px 1px rgba(black, 0.1);
+
+    input[type="text"] {
+      padding: 0.5em;
+      border-radius: 0.25em;
+      border: solid 1px #e0e2e6;
+    }
+
+    .form-btns {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1em;
+      border-radius: 0.25em;
+
+      .btn {
+        flex: 0.5;
+        padding: 0.5em 1em;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s;
+
+        &:nth-child(1) {
+          background-color: #3c37fd;
+          &:hover {
+            border: solid #3c37fd 1px;
+            background-color: transparent;
+            color: #3c37fd;
+          }
+        }
+
+        &:nth-child(2) {
+          background-color: #f66161;
+
+          &:hover {
+            border: solid #f66161 1px;
+            color: #f66161;
+            background-color: transparent;
+          }
+        }
+      }
+    }
+
+    .img-box {
+      position: relative;
+      label {
+        margin: 0.5em 0;
+      }
+
+      .img-prev {
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .img-upload {
+        margin: 0 0 1em 0;
+        min-height: 10em;
+        border: dashed 2px #c9cad1;
+        border-radius: 0.25em;
+        position: relative;
+        overflow: hidden;
+
+        h3,
+        h4 {
+          margin: 0.5em 0;
+          text-align: center;
+          font-size: 1rem;
+        }
+
+        input[type="file"] {
+          // opacity: 0;
+        }
+        button {
+          display: block;
+          margin-inline: auto;
+          padding: 0.2em;
+          border-radius: 0.25em;
+          background-color: #e0e2e6;
+          border: solid 2px #c9cad1;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .upload {
+    padding: 1em !important;
+    .form-upload {
+      width: min(90vw, 25em) !important;
+    }
+  }
+}
