@@ -7,7 +7,8 @@ import {
   BsFillEyeFill as ShowIcon,
   BsFillEyeSlashFill as HideIcon,
 } from "react-icons/bs";
-import "./style.scss";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export type errorType = {
   message: string;
@@ -53,43 +54,30 @@ const Login = () => {
   };
 
   return (
-    <section className="login">
-      <div className="login-box">
-        {error && <p className="error text-center">{error}</p>}
-        <h1 className="h2 text-center">Welcome Back !</h1>
-        <h2 className="text-center my-2 h3">Login</h2>
-        <form onSubmit={loginHandler}>
+    <div className="login_box">
+      <h1>Dobby Ads</h1>
+      <h2>Sign In to your Account</h2>
+      <form>
+        <input type="text" placeholder="username" name="username" />
+        <div className="password">
           <input
-            className="form-control"
-            type="text"
-            name="username"
-            placeholder="Username"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Password"
           />
-          <div className="password">
-            <input
-              className="form-control"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-            />
-            <div
-              className="controls"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <HideIcon /> : <ShowIcon />}
-            </div>
+          <div
+            className="controls"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <HideIcon /> : <ShowIcon />}
           </div>
-          <input
-            className="form-control btn btn-primary"
-            type="submit"
-            value="Login"
-          />
-        </form>
-        <small>
-          Not an user <Link to="/register">Sign up</Link>
-        </small>
-      </div>
-    </section>
+        </div>
+        <input type="submit" value="login" />
+      </form>
+      <small>
+        Don't have and account ? <Link to="/register">register</Link>
+      </small>
+    </div>
   );
 };
 

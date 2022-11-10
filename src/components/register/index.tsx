@@ -4,7 +4,6 @@ import { customAxios } from "../../axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../hook/useUserContext";
 import { errorType } from "../login";
-import "./style.scss";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -32,38 +31,19 @@ const Register = () => {
   };
 
   return (
-    <section className="register">
-      <div className="register-box">
-        {error && <p className="error">{error}</p>}
-        <h1 className="h2 text-center">Register</h1>
-        <form onSubmit={registerHandler}>
-          <input
-            className="form-control"
-            type="text"
-            name="username"
-            placeholder="Username"
-          />
-          <input
-            className="form-control"
-            type="text"
-            name="password"
-            placeholder="Password"
-          />
-          <input
-            className="form-control"
-            type="text"
-            name="repeatPassword"
-            placeholder="Repeat Password"
-          />
-          <button className="form-control btn btn-primary" type="submit">
-            Register
-          </button>
-        </form>
-        <small>
-          Already an user <Link to="/login">Sign in</Link>
-        </small>
-      </div>
-    </section>
+    <div className="register_box">
+      <h1>Dobby Ads</h1>
+      <h2>Sign In to your Account</h2>
+      <form>
+        <input type="text" placeholder="username" />
+        <input type="text" placeholder="password" />
+        <input type="text" placeholder="repeat password" />
+        <input type="submit" value="Create Account" />
+      </form>
+      <small>
+        Already an user ? <Link to="/login">login</Link>
+      </small>
+    </div>
   );
 };
 

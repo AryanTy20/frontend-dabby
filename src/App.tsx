@@ -6,8 +6,7 @@ import Layout from "./layout";
 import ProtectedRoute from "./layout/protectedRoute";
 import PersistantRoute from "./layout/persistantRoute";
 import ErrorFallback from "./components/ErrorBoundary";
-const Register = React.lazy(() => import("./components/register"));
-const Login = React.lazy(() => import("./components/login"));
+import Auth from "./components/auth";
 const HomePage = React.lazy(() => import("./components/homepage"));
 const PageNotFound = React.lazy(() => import("./components/pagenotfound"));
 
@@ -21,8 +20,9 @@ function App() {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
+              {["/login", "/register"].map((item, i) => (
+                <Route key={i} path={item} element={<Auth />} />
+              ))}
               <Route element={<PersistantRoute />}>
                 <Route element={<ProtectedRoute />}>
                   <Route path="/" element={<HomePage />} />

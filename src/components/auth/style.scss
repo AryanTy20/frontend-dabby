@@ -1,0 +1,91 @@
+.auth {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  background: url("../../assets/bg.svg");
+
+  .auth-box {
+    width: 25em;
+    max-width: 25em;
+    background-color: white;
+    padding: 2em;
+    border-radius: 0.25em;
+
+    .login_box,
+    .register_box {
+      h1 {
+        margin-bottom: 1.2em;
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #6f58c9;
+      }
+      h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        margin: 1em 0;
+      }
+
+      form {
+        margin: 2em 0 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1em 0;
+
+        input {
+          padding: 0.6em 1em;
+          border-radius: 0.25em;
+          border: solid 1px #e0e2e6;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:active,
+        input:-webkit-autofill:focus {
+          -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+        }
+
+        .password {
+          position: relative;
+
+          input {
+            width: 100%;
+            padding-right: 2.5em;
+          }
+          .controls {
+            position: absolute;
+            top: 35%;
+            right: 1em;
+            cursor: pointer;
+          }
+        }
+
+        input[type="submit"] {
+          margin-top: 0.5em;
+          background-color: #3c37fd;
+          color: white;
+          font-weight: 600;
+          padding: 0.8em;
+        }
+      }
+
+      small {
+        margin: 2em 0;
+        display: block;
+        text-align: center;
+        color: gray;
+        a {
+          color: #3c37fd;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .auth-box {
+    width: 95vw !important;
+    padding: 2em 1em !important;
+  }
+}
