@@ -5,6 +5,8 @@ import { errorType } from "../login";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import LazyImage from "../LazyImg";
 import "./style.scss";
+import Loader from "../loader";
+import { useUserContext } from "../../hook/useUserContext";
 
 type allImgType = {
   name: string;
@@ -17,6 +19,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchKey, setSearchKey] = useState("");
+  const { user, setUser } = useUserContext();
 
   //getting  all images
   useEffect(() => {
@@ -51,7 +54,7 @@ const Home = () => {
   return (
     <section className="home">
       <div className="header">
-        <h1>Welcome Aryan</h1>
+        <h1>Welcome {user?.name}</h1>
         <form onSubmit={searchLocal} className="search">
           <input
             type="search"
@@ -63,8 +66,8 @@ const Home = () => {
           <input type="submit" value="search" />
         </form>
       </div>
-      {isLoading && <p className="loading">Loading...</p>}
-      <div className="all-img">
+
+      <div className={`all-img ${isLoading ? "all-img-nodata" : ""}`}>
         {allImg.map((item, i) => (
           <div className="img--box" key={i}>
             <div className="poster">
@@ -75,6 +78,7 @@ const Home = () => {
             </div>
           </div>
         ))}
+        {isLoading && <Loader />}
       </div>
     </section>
   );

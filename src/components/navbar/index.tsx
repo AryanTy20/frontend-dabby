@@ -74,7 +74,18 @@ const Navbar = ({ setActiveTab }: NavbarProps) => {
   return (
     <nav className="navbar">
       <div className="logo">
-        <Link to="/">Dobby Ads</Link>
+        <Link
+          to={"/"}
+          onClick={() =>
+            setActiveTab({
+              allImg: true,
+              uploadImg: false,
+              searchImg: false,
+            })
+          }
+        >
+          Dobby Ads
+        </Link>
       </div>
       <div
         className={`ham ${openMenu ? "ham-open" : ""}`}

@@ -51,6 +51,7 @@
       overflow: hidden;
 
       .poster {
+        position: relative;
         aspect-ratio: 5/4;
         img {
           height: 100%;

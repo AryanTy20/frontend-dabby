@@ -5,6 +5,7 @@ import { customAxios } from "../../axios";
 import { errorType } from "../login";
 import LazyImage from "../LazyImg";
 import "./style.scss";
+import Loader from "../loader";
 
 type searchtype = {
   name: string;
@@ -74,7 +75,7 @@ const Search = () => {
             </div>
           </div>
         ))}
-        {isLoading && <p>Loading...</p>}
+        {isLoading && <Loader />}
         {searchResult.length === 0 && !isLoading && (
           <h1>Search Images by Name</h1>
         )}
