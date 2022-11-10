@@ -7,8 +7,7 @@ import {
   BsFillEyeFill as ShowIcon,
   BsFillEyeSlashFill as HideIcon,
 } from "react-icons/bs";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export type errorType = {
   message: string;
@@ -46,18 +45,26 @@ const Login = () => {
       setUser({ name: res.data.user });
       navigate("/", { replace: true });
     } catch (err) {
-      if (axios.isAxiosError(err) && err.message) {
+      if (axios.isAxiosError(err) && err.response) {
         const { message, status } = err.response?.data as errorType;
-        status === 400 ? setError(message) : setError("Something went wrong!");
+        status === 400 && setError(message);
       }
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
+  }, [error]);
 
   return (
     <div className="login_box">
       <h1>Dobby Ads</h1>
       <h2>Sign In to your Account</h2>
-      <form>
+      <form onSubmit={loginHandler}>
         <input type="text" placeholder="username" name="username" />
         <div className="password">
           <input

@@ -9,10 +9,13 @@ import ErrorFallback from "./components/ErrorBoundary";
 import Auth from "./components/auth";
 const HomePage = React.lazy(() => import("./components/homepage"));
 const PageNotFound = React.lazy(() => import("./components/pagenotfound"));
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <>
+      <ToastContainer />
       <ErrorBoundary
         FallbackComponent={ErrorFallback}
         onReset={() => location.reload()}
