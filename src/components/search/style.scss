@@ -74,7 +74,6 @@
 
     .header {
       flex-wrap: wrap;
-      border: solid green 1px;
 
       .searchBox {
         display: flex;
@@ -92,6 +91,7 @@
         width: 100%;
 
         .poster {
+          position: relative;
           img {
             height: 100%;
             width: 100%;

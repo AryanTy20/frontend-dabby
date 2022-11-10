@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { customAxios } from "../../axios";
 import { useUserContext } from "../../hook/useUserContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./style.scss";
 import axios from "axios";
 import { errorType } from "../login";
@@ -74,7 +74,7 @@ const Navbar = ({ setActiveTab }: NavbarProps) => {
   return (
     <nav className="navbar">
       <div className="logo">
-        <h1>Dobby Ads</h1>
+        <Link to="/">Dobby Ads</Link>
       </div>
       <div
         className={`ham ${openMenu ? "ham-open" : ""}`}

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { customAxios } from "../../axios";
 import { errorType } from "../login";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import LazyImage from "../LazyImg";
 import "./style.scss";
 
 type allImgType = {
@@ -62,11 +63,12 @@ const Home = () => {
           <input type="submit" value="search" />
         </form>
       </div>
+      {isLoading && <p className="loading">Loading...</p>}
       <div className="all-img">
         {allImg.map((item, i) => (
           <div className="img--box" key={i}>
             <div className="poster">
-              <LazyLoadImage src={item.image} alt={item.name} />
+              <LazyImage src={item.image} alt={item.name} />
             </div>
             <div className="name">
               <h5>{item.name}</h5>

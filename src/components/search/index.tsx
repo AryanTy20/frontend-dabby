@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { customAxios } from "../../axios";
 import { errorType } from "../login";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import LazyImage from "../LazyImg";
 import "./style.scss";
 
 type searchtype = {
@@ -67,14 +67,17 @@ const Search = () => {
         {searchResult?.map((item, i) => (
           <div className="img--box" key={i}>
             <div className="poster">
-              <LazyLoadImage src={item.image} alt={item.name} />
+              <LazyImage src={item.image} alt={item.name} />
             </div>
             <div className="name">
               <h5>{item.name}</h5>
             </div>
           </div>
         ))}
-        {searchResult.length === 0 && <h1>Search Images by Name</h1>}
+        {isLoading && <p>Loading...</p>}
+        {searchResult.length === 0 && !isLoading && (
+          <h1>Search Images by Name</h1>
+        )}
       </div>
     </section>
   );
