@@ -17,6 +17,7 @@ const Register = () => {
     const data = Object.fromEntries(formData);
     setError("");
     try {
+      console.log(data);
       const response = await customAxios.post("/auth/register", data);
       setUser({ name: response.data.user });
       navigate("/", { replace: true });
@@ -45,9 +46,14 @@ const Register = () => {
       <h1>Dobby Ads</h1>
       <h2>Sign In to your Account</h2>
       <form onSubmit={registerHandler}>
-        <input type="text" placeholder="username" required />
-        <input type="text" placeholder="password" required />
-        <input type="text" placeholder="repeat password" required />
+        <input type="text" placeholder="username" name="username" required />
+        <input type="text" placeholder="password" name="password" required />
+        <input
+          type="text"
+          placeholder="repeat password"
+          name="repeatPassword"
+          required
+        />
         <input type="submit" value="Create Account" />
       </form>
       <small>
