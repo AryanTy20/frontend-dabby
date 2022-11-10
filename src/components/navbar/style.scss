@@ -89,8 +89,9 @@
       gap: 2em 0;
 
       li {
-        margin: 1em -0.5em;
+        margin: 1em -1em;
         position: relative;
+        left: -1em;
         a {
           font-size: 1rem;
         }
@@ -102,6 +103,8 @@
         }
       }
       button {
+        position: relative;
+        left: -1em;
         margin-inline: auto !important;
       }
     }
